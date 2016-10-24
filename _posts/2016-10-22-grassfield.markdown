@@ -5,7 +5,7 @@ date: 2016-10-22 15:26:00
 author: Albert Pető
 ---
 <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
-<img src="/assets/images/flora-screenshot.png"/>
+<a href="https://petoalbert.github.io/flora"><img src="/assets/images/flora-screenshot.png"/></a>
 
 This post is about a three.js based application which shows a grass fild with
 wind blowing in it. You can try it out in your browser [here][flora]. The source

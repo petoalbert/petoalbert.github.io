@@ -1,11 +1,10 @@
 ---
-layout: post
 title: "Modeling a grass field in three.js"
-date: 2016-10-22 15:26:00
-author: Albert Pető
+date: 2016-10-22
+tags: [OpenGL, 3D]
 ---
 <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
-<a href="https://petoalbert.github.io/flora"><img src="/assets/images/flora-screenshot.png"/></a>
+<a href="https://petoalbert.github.io/flora"><img src="./flora-screenshot.png" alt="screenshot"/></a>
 
 This post is about a three.js based application which shows a grass fild with
 wind blowing in it. You can try it out in your browser [here][flora]. The source
@@ -28,7 +27,7 @@ the alignment is assumed to be the following: the z axis is always zero
 the longitudinal axis is y, with the bottom of the grass having 0 value for
 the y coordinate.
 
-<img src="/assets/images/grass-blender.png"/>
+<img src="./grass-blender.png" alt="grass in blender"/>
 
 ## Instancing
 
@@ -68,14 +67,14 @@ grass), in the following order:
 This could be done in many ways. Don't forget that
 when the geometry shader is working on a vertex, it doesn't know anything
 about the other vertices of the blade of grass, so in a mathematical sense
-we can only use a function $$f(v,a,u)$$ to calculate the transformed vertex,
+we can only use a function \\(f(v,a,u)\\) to calculate the transformed vertex,
 where the v,a,u arguments are the actual vertex, the attributes of the
 current blade of grass, and uniforms.
 
 In my model, every blade has a constant
 curvature, i.e. its y and z coordinates fit on a circular arc, which is
 calculated like this in the shader (simplified version):
-{% highlight glsl %}
+```glsl
 // curve is different for each blade of grass and describes the curvature
 // r is the radius of the circular arc
 // len is the height of the grass piece
@@ -83,17 +82,16 @@ float r = len/(curve);
 float angle = vPosition.y/r;
 vPosition.z = cos(angle)*r-r;
 vPosition.y = sin(angle)*r;
-{% endhighlight %}
-<!--* this is only used to correct syntax highlighting in the editor-->
+```
 
-The shader uses the mathematical identity $$\theta = s/r$$, for a circular
-arc of length $$s$$ and radius $$r$$, where $$\theta$$ is the subtended angle
+The shader uses the mathematical identity \\(\theta = s/r\\), for a circular
+arc of length \\(s\\) and radius \\(r\\), where \\(\theta\\) is the subtended angle
 in radians.
-For a vertex of a given blade of grass, $$s$$ is the $$y$$ coordinate of the
-vertex, and $$r$$ is constant to the whole blade. The below picture shows
+For a vertex of a given blade of grass, \\(s\\) is the \\(y\\) coordinate of the
+vertex, and \\(r\\) is constant to the whole blade. The below picture shows
 arcs with the same length, but with different radius, in red:
 
-<img class="center" width="50%" src="/assets/images/curvature.png"/>
+<img class="center" width="50%" src="./curvature.png" alt="curvature"/>
 
 ### 3. Rotating the blade along the y axis
 
@@ -113,7 +111,7 @@ blade with respect to time. This is accomplished by extending the
 [previously presented snippet](#bending-the-grass-piece) from the geometry
 shader:
 
-{% highlight glsl %}
+```glsl
 // curve is different for each blade of grass and describes the curvature
 // r is the radius of the circular arc
 // len is the height of the grass piece
@@ -121,8 +119,7 @@ float r = len/(curve+windEffects); // notice that we added windEffects
 float angle = vPosition.y/r;
 vPosition.z = cos(angle)*r-r;
 vPosition.y = sin(angle)*r;
-{% endhighlight %}
-<!--* this is only used to correct syntax highlighting in the editor-->
+```
 
 ### Constant movement
 
@@ -130,11 +127,10 @@ This movement is a very low-amplitude movement, but even this little movement
 helps get a more natural feel, where not everything is 100% static.
 Each blade will have a different amplitude and frequency, to make
 it look natural and not too synchronized.
-{% highlight glsl %}
+```glsl
 // amplitude and freq are unique for each blade of grass
 float r = len/(curve+amplitude*sin(freq*time));
-{% endhighlight %}
-<!--* this is only used to correct syntax highlighting in the editor-->
+```
 
 ### Wind gust
 
@@ -158,17 +154,17 @@ gradually decrease after. It is also important for the movement to start
 and end slowly, otherwise it may look unnatural. Taking into account these
 criteria, I have chosen the [gaussian function][gaussian-wikipedia].
 
-<img class="center" width="80%" src="/assets/images/gaussian.png"/>
+<img class="center" width="80%" src="./gaussian.png" alt="gaussian" />
 
 The above picture shows a basic implementation of the gust strength at a
 given point. However, I think that the settling phase can usually last longer
 and contain some spring-like back-and-forth movement, so I made it longer and
 multiplied it with a cosine function:
 
-<img class="center" width="80%" src="/assets/images/gaussian-modified.png"/>
+<img class="center" width="80%" src="./gaussian-modified.png" alt="modified gaussian"/>
 
 This is the simplified part of the geometry shader that computes the wind strength:
-{% highlight glsl %}
+```glsl
 float wind()
 {
   // The transitional stage is governed by one half of a Gaussian function,
@@ -184,14 +180,14 @@ float wind()
     return 1.0;
   }
 }
-{% endhighlight %}
+```
 <!--* this is only used to correct syntax highlighting in the editor-->
 
 Another important thing is the blade's rotation about its longitudinal (y) axis.
 If it does not align with the gust direction, then, besides the bending,
 the gust will also rotate the piece:
 
-{% highlight glsl %}
+```glsl
 /*
  * Return the angle to which the wind in its strongest state will rotate
  * the tip of the grass piece.
@@ -222,15 +218,13 @@ float rotateInWind()
   }
 
 }
-{% endhighlight %}
-<!--* this is only used to correct syntax highlighting in the editor-->
+```
 
 Finally, the blade's curvature is modified according to the following line:
-{% highlight glsl %}
+```glsl
 // the weighting 0.5 is experimentally determined
 float r = len/(curve+0.5*windStrength+amplitude*sin(freq*time));
-{% endhighlight %}
-<!--* this is only used to correct syntax highlighting in the editor-->
+```
 
 Here, I have left out the details of how the wind travels throght the field,
 i.e. how the position influences the arguments of the gaussian curve.
@@ -244,19 +238,19 @@ will not write about them.
 The more important problem from our perspective is to always draw the blades
 of grass around the "player's" current position, so that the field looks
 infinite. I will note here that the original blade's are spread out around
-the $$(0,0)$$ point in the x-z plane in a square shape, with width $$a$$.
-Now, if the player's position in the x-z plane is $$(p_x,p_z)$$, we have to
-draw the pieces in a square with width $$a$$, centered at $$(p_x,p_z)$$.
-We suppose that the player can't see further than $$a/2$$ distance, because
+the \\((0,0)\\) point in the x-z plane in a square shape, with width \\(a\\).
+Now, if the player's position in the x-z plane is \\((p_x,p_z)\\), we have to
+draw the pieces in a square with width \\(a\\), centered at \\((p_x,p_z)\\).
+We suppose that the player can't see further than \\(a/2\\) distance, because
 there is fog.
 
 The problem is solved in the geometry shader: if a blade in its original
 position can't be seen from the players position (its distance is more than
-$$a/2$$), we translate the blade in the x-z plane by
-$$(t_x\cdot a,t_z \cdot a)$$ to the square centered around the player's
-position, where $$t_x$$ and $$t_z$$ are appropiate integers:
+\\(a/2\\)), we translate the blade in the x-z plane by
+\\((t_x\cdot a,t_z \cdot a)\\) to the square centered around the player's
+position, where \\(t_x\\) and \\(t_z\\) are appropiate integers:
 
-{% highlight glsl %}
+```glsl
 /*
  * Offset the grass piece with integer multiples of spread in the x and z directions
  * to be in the near the players current position.
@@ -272,8 +266,7 @@ void calculateViewOffset() {
     viewOffset.z += round(diff.z/spread)*spread;
   }
 }
-{% endhighlight %}
-<!--* this is only used to correct syntax highlighting in the editor-->
+```
 
 [flora]: https://petoalbert.github.io/flora
 [source]: https://github.com/petoalbert/flora

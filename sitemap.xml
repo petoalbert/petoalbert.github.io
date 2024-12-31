@@ -2,37 +2,37 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
 	
 	<url>
-		<loc>https://petoalbert.github.io/eleventy-base-blog/blog/grassfield/</loc>
+		<loc>https://petoalbert.github.io/blog/grassfield/</loc>
 		<lastmod>2016-10-22</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://petoalbert.github.io/eleventy-base-blog/blog/spanish_translation/</loc>
+		<loc>https://petoalbert.github.io/blog/spanish_translation/</loc>
 		<lastmod>2024-12-28</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://petoalbert.github.io/eleventy-base-blog/about/</loc>
+		<loc>https://petoalbert.github.io/about/</loc>
 		<lastmod>2024-12-31</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://petoalbert.github.io/eleventy-base-blog/blog/</loc>
+		<loc>https://petoalbert.github.io/blog/</loc>
 		<lastmod>2024-12-31</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://petoalbert.github.io/eleventy-base-blog/</loc>
+		<loc>https://petoalbert.github.io/</loc>
 		<lastmod>2024-12-31</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://petoalbert.github.io/eleventy-base-blog/tags/</loc>
+		<loc>https://petoalbert.github.io/tags/</loc>
 		<lastmod>2024-12-31</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://petoalbert.github.io/eleventy-base-blog/feed/feed.xml</loc>
+		<loc>https://petoalbert.github.io/feed/feed.xml</loc>
 		<lastmod>2024-12-31</lastmod>
 	</url>
 </urlset>

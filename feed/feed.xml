@@ -3,18 +3,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <title>Blog Title</title>
   <subtitle>This is a longer description about your blog.</subtitle>
-  <link href="https://example.com/eleventy-base-blog/feed/feed.xml" rel="self" />
-  <link href="https://example.com/eleventy-base-blog/" />
+  <link href="https://example.com/feed/feed.xml" rel="self" />
+  <link href="https://example.com/" />
   <updated>2024-12-28T00:00:00Z</updated>
-  <id>https://example.com/eleventy-base-blog/</id>
+  <id>https://example.com/</id>
   <author>
     <name>Your Name</name>
   </author>
   <entry>
     <title>Writing an OpenAI powered app to practice my Spanish skills</title>
-    <link href="https://example.com/eleventy-base-blog/blog/spanish_translation/" />
+    <link href="https://example.com/blog/spanish_translation/" />
     <updated>2024-12-28T00:00:00Z</updated>
-    <id>https://example.com/eleventy-base-blog/blog/spanish_translation/</id>
+    <id>https://example.com/blog/spanish_translation/</id>
     <content type="html">&lt;p&gt;I have been learning Spanish for a year now. Like many others, I find that while I am quite good at reading, my active writing and speaking skills remain fairly basic. To address this gap, I developed a small application that generates random sentences for me to translate into Spanish. With the help of OpenAI, I can translate these sentences and receive corrections, making the process both interactive and effective.&lt;/p&gt;
 &lt;h1 id=&quot;concept&quot;&gt;Concept&lt;/h1&gt;
 &lt;p&gt;An app isn&#39;t strictly necessary for this purpose—anyone can use ChatGPT to generate sentences and then ask it to correct their translations. However, I wanted to streamline this process for a few key reasons:&lt;/p&gt;
@@ -59,11 +59,11 @@
   </entry>
   <entry>
     <title>Modeling a grass field in three.js</title>
-    <link href="https://example.com/eleventy-base-blog/blog/grassfield/" />
+    <link href="https://example.com/blog/grassfield/" />
     <updated>2016-10-22T00:00:00Z</updated>
-    <id>https://example.com/eleventy-base-blog/blog/grassfield/</id>
+    <id>https://example.com/blog/grassfield/</id>
     <content type="html">&lt;script src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
-&lt;p&gt;&lt;a href=&quot;https://petoalbert.github.io/flora&quot;&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://example.com/eleventy-base-blog/blog/grassfield/gHQL7E1DSJ-1366.avif 1366w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://example.com/eleventy-base-blog/blog/grassfield/gHQL7E1DSJ-1366.webp 1366w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://example.com/eleventy-base-blog/blog/grassfield/gHQL7E1DSJ-1366.png&quot; alt=&quot;screenshot&quot; width=&quot;1366&quot; height=&quot;768&quot;&gt;&lt;/picture&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://petoalbert.github.io/flora&quot;&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://example.com/blog/grassfield/gHQL7E1DSJ-1366.avif 1366w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://example.com/blog/grassfield/gHQL7E1DSJ-1366.webp 1366w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://example.com/blog/grassfield/gHQL7E1DSJ-1366.png&quot; alt=&quot;screenshot&quot; width=&quot;1366&quot; height=&quot;768&quot;&gt;&lt;/picture&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;This post is about a three.js based application which shows a grass fild with
 wind blowing in it. You can try it out in your browser &lt;a href=&quot;https://petoalbert.github.io/flora&quot;&gt;here&lt;/a&gt;. The source
 code is on &lt;a href=&quot;https://github.com/petoalbert/flora&quot;&gt;github&lt;/a&gt;. Here I will give a brief description about some of
@@ -81,7 +81,7 @@ the alignment is assumed to be the following: the z axis is always zero
 (i.e. the blade is in the x-y plane), and
 the longitudinal axis is y, with the bottom of the grass having 0 value for
 the y coordinate.&lt;/p&gt;
-&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://example.com/eleventy-base-blog/blog/grassfield/LpihAILE_A-1366.avif 1366w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://example.com/eleventy-base-blog/blog/grassfield/LpihAILE_A-1366.webp 1366w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://example.com/eleventy-base-blog/blog/grassfield/LpihAILE_A-1366.png&quot; alt=&quot;grass in blender&quot; width=&quot;1366&quot; height=&quot;768&quot;&gt;&lt;/picture&gt;
+&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://example.com/blog/grassfield/LpihAILE_A-1366.avif 1366w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://example.com/blog/grassfield/LpihAILE_A-1366.webp 1366w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://example.com/blog/grassfield/LpihAILE_A-1366.png&quot; alt=&quot;grass in blender&quot; width=&quot;1366&quot; height=&quot;768&quot;&gt;&lt;/picture&gt;
 &lt;h2 id=&quot;instancing&quot;&gt;Instancing&lt;/h2&gt;
 &lt;p&gt;Once the application has loaded the blade vertices, it needs to draw a lot of
 them. The naive solution would be to make a &lt;a href=&quot;https://threejs.org/docs/index.html#Reference/Objects/Mesh&quot;&gt;THREE.Mesh&lt;/a&gt; with the
@@ -132,7 +132,7 @@ in radians.
 For a vertex of a given blade of grass, &#92;(s&#92;) is the &#92;(y&#92;) coordinate of the
 vertex, and &#92;(r&#92;) is constant to the whole blade. The below picture shows
 arcs with the same length, but with different radius, in red:&lt;/p&gt;
-&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://example.com/eleventy-base-blog/blog/grassfield/NcVuMqVEEo-756.avif 756w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://example.com/eleventy-base-blog/blog/grassfield/NcVuMqVEEo-756.webp 756w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; class=&quot;center&quot; width=&quot;756&quot; src=&quot;https://example.com/eleventy-base-blog/blog/grassfield/NcVuMqVEEo-756.png&quot; alt=&quot;curvature&quot; height=&quot;756&quot;&gt;&lt;/picture&gt;
+&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://example.com/blog/grassfield/NcVuMqVEEo-756.avif 756w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://example.com/blog/grassfield/NcVuMqVEEo-756.webp 756w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; class=&quot;center&quot; width=&quot;756&quot; src=&quot;https://example.com/blog/grassfield/NcVuMqVEEo-756.png&quot; alt=&quot;curvature&quot; height=&quot;756&quot;&gt;&lt;/picture&gt;
 &lt;h3 id=&quot;3-rotating-the-blade-along-the-y-axis&quot;&gt;3. Rotating the blade along the y axis&lt;/h3&gt;
 &lt;h3 id=&quot;4-translating-the-blade-in-the-x-z-plane&quot;&gt;4. Translating the blade in the x-z plane&lt;/h3&gt;
 &lt;p&gt;Besides the geometry transformations, each blade has a slightly different color,
@@ -143,7 +143,7 @@ which, in the case of this application, consist of two parts: constant movement
 and gusts of wind.&lt;/p&gt;
 &lt;p&gt;In both cases, the movement is present by changing the curvature of the
 blade with respect to time. This is accomplished by extending the
-&lt;a href=&quot;https://example.com/eleventy-base-blog/blog/grassfield/#bending-the-grass-piece&quot;&gt;previously presented snippet&lt;/a&gt; from the geometry
+&lt;a href=&quot;https://example.com/blog/grassfield/#bending-the-grass-piece&quot;&gt;previously presented snippet&lt;/a&gt; from the geometry
 shader:&lt;/p&gt;
 &lt;pre class=&quot;language-glsl&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-glsl&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;// curve is different for each blade of grass and describes the curvature&lt;/span&gt;
 &lt;span class=&quot;token comment&quot;&gt;// r is the radius of the circular arc&lt;/span&gt;
@@ -179,12 +179,12 @@ which will gradually increase until the gust reaches that point, and will
 gradually decrease after. It is also important for the movement to start
 and end slowly, otherwise it may look unnatural. Taking into account these
 criteria, I have chosen the &lt;a href=&quot;https://en.wikipedia.org/wiki/Gaussian_function&quot;&gt;gaussian function&lt;/a&gt;.&lt;/p&gt;
-&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://example.com/eleventy-base-blog/blog/grassfield/RbSdTl-elU-800.avif 800w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://example.com/eleventy-base-blog/blog/grassfield/RbSdTl-elU-800.webp 800w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; class=&quot;center&quot; width=&quot;800&quot; src=&quot;https://example.com/eleventy-base-blog/blog/grassfield/RbSdTl-elU-800.png&quot; alt=&quot;gaussian&quot; height=&quot;600&quot;&gt;&lt;/picture&gt;
+&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://example.com/blog/grassfield/RbSdTl-elU-800.avif 800w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://example.com/blog/grassfield/RbSdTl-elU-800.webp 800w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; class=&quot;center&quot; width=&quot;800&quot; src=&quot;https://example.com/blog/grassfield/RbSdTl-elU-800.png&quot; alt=&quot;gaussian&quot; height=&quot;600&quot;&gt;&lt;/picture&gt;
 &lt;p&gt;The above picture shows a basic implementation of the gust strength at a
 given point. However, I think that the settling phase can usually last longer
 and contain some spring-like back-and-forth movement, so I made it longer and
 multiplied it with a cosine function:&lt;/p&gt;
-&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://example.com/eleventy-base-blog/blog/grassfield/atI0v4EgqM-800.avif 800w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://example.com/eleventy-base-blog/blog/grassfield/atI0v4EgqM-800.webp 800w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; class=&quot;center&quot; width=&quot;800&quot; src=&quot;https://example.com/eleventy-base-blog/blog/grassfield/atI0v4EgqM-800.png&quot; alt=&quot;modified gaussian&quot; height=&quot;600&quot;&gt;&lt;/picture&gt;
+&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://example.com/blog/grassfield/atI0v4EgqM-800.avif 800w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://example.com/blog/grassfield/atI0v4EgqM-800.webp 800w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; class=&quot;center&quot; width=&quot;800&quot; src=&quot;https://example.com/blog/grassfield/atI0v4EgqM-800.png&quot; alt=&quot;modified gaussian&quot; height=&quot;600&quot;&gt;&lt;/picture&gt;
 &lt;p&gt;This is the simplified part of the geometry shader that computes the wind strength:&lt;/p&gt;
 &lt;pre class=&quot;language-glsl&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-glsl&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;wind&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
 &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;

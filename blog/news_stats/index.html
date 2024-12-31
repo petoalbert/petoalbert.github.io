@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Writing an OpenAI powered app to practice my Spanish skills</title>
+		<title>Comparing the quality of various news sources using OpenAI</title>
 		<meta name="description" content="I am writing about my experiences as a software engineer.">
 		<link rel="alternate" href="feed/feed.xml" type="application/atom+xml" title="Albert Peto&#39;s developer experiences">
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.19/dist/katex.min.css">
@@ -481,55 +481,48 @@ header {
 		<main id="skip">
 			<heading-anchors>
 				
-<h1 id="writing-an-openai-powered-app-to-practice-my-spanish-skills">Writing an OpenAI powered app to practice my Spanish skills</h1>
+<h1 id="comparing-the-quality-of-various-news-sources-using-openai">Comparing the quality of various news sources using OpenAI</h1>
 
 <ul class="post-metadata">
-	<li><time datetime="2024-12-28">28 December 2024</time></li>
-	<li><a href="/tags/openai/" class="post-tag">OpenAI</a></li>
+	<li><time datetime="2024-12-29">29 December 2024</time></li>
+	<li><a href="/tags/openai/" class="post-tag">OpenAI</a>, </li>
+	<li><a href="/tags/gemini/" class="post-tag">Gemini</a></li>
 </ul>
 
-<p>I have been learning Spanish for a year now. Like many others, I find that while I am quite good at reading, my active writing and speaking skills remain fairly basic. To address this gap, I developed a small application that generates random sentences for me to translate into Spanish. With the help of OpenAI, I can translate these sentences and receive corrections, making the process both interactive and effective.</p>
-<h1 id="concept">Concept</h1>
-<p>An app isn't strictly necessary for this purpose—anyone can use ChatGPT to generate sentences and then ask it to correct their translations. However, I wanted to streamline this process for a few key reasons:</p>
+<p>I am often shocked by how misleading and manipulative some online media platforms can be. Yet, they still attract a significant number of readers, many of whom view the sources I trust with similar skepticism. This made me curious about gaining an &quot;independent&quot; perspective on which news outlets are more reliable. To explore this, I decided to create a simple tool that analyzes articles from various sources and uses OpenAI to assign a score to each. It will be fascinating to see if these scores reveal noticeable differences between the sites.</p>
+<h1 id="what-to-evaluate">What to evaluate</h1>
+<p>I defined four attributes for which OpenAI will assign a score between 0 and 10:</p>
 <ul>
-<li>It’s more useful to practice translations that we've already done, rather than always translating new sentences. With long-term use, this requirement becomes difficult to fulfill with solely relying on ChatGPT.</li>
-<li>Interaction with ChatGPT typically happens through typed requests. When it corrects a translation, it often provides explanations in its response. However, when everything is included in a single response, it can become overwhelming. With a custom UI, we can hide the explanations and reveal them by clicking a button.</li>
-<li>I’ve found that OpenAI’s random sentence generation isn’t entirely random. After a few iterations, it tends to recycle the same topics and phrases. I’ve found it more effective to randomize several parameters in code and feed them into the OpenAI prompt.</li>
+<li>Credibility: Higher is better, indicating how believable the article's claims are.</li>
+<li>Mood: Reflects the emotional tone of the article, ranging from sad to happy.</li>
+<li>Manipulativeness: Lower is better, measuring how manipulative the article's content appears.</li>
+<li>Complexity: Evaluates the complexity of the language and wording used in the article.</li>
 </ul>
-<h1 id="setup">Setup</h1>
-<p>I wrote the app using TypeScript and ReactJS, and it’s deployed on fly.io. All translations are stored in a SQLite database, along with the number of times I’ve provided a correct translation. This helps during practice by adjusting the probability of seeing a sentence again. This was my first time using fly.io, and I’m quite satisfied with it. I needed a simple, cost-effective platform to deploy my code, and it fits this need perfectly.</p>
-<h1 id="challenges">Challenges</h1>
-<h2 id="1-flaky-corrections">1. Flaky corrections</h2>
-<p>Initially, I asked OpenAI to correct the sentence and provide a list of explanations. This worked in most cases, but there was one annoying issue:</p>
-<ol>
-<li>I translate a sentence.</li>
-<li>It corrects my translation and provides an explanation of why it’s incorrect.</li>
-<li>Later, when translating the same sentence, I provide the corrected translation it gave me earlier.</li>
-<li>It corrects it again, usually switching some words with synonyms and claiming that they fit the context better.</li>
-</ol>
-<p>After struggling with this issue for a while, I tried refining the prompt by adding the following additional commands:</p>
-<ul>
-<li>&quot;Focus only on major errors that affect meaning, and ignore minor stylistic differences or words that only have a slightly different meaning.&quot;</li>
-<li>&quot;Be relaxed and non-critical in evaluating the Spanish translation.&quot;</li>
-</ul>
-<p>However, it seemed to ignore many of these adjustments and still had a tendency to make corrections, even when the issue was simply with synonyms.</p>
-<p>It took me some time to realize that the process works much better if I split it into two tasks:</p>
-<ol>
-<li>One prompt to provide the correction and a list of explanations.</li>
-<li>Another prompt to ask a simple question: Is the translation correct at all?</li>
-</ol>
-<p>If the answer to &quot;Is the translation correct?&quot; is yes, there’s no need to show the output from the other prompt with more detailed corrections.</p>
-<p>Since then, I’ve read the prompt engineering guide from OpenAI and discovered that they offer similar advice <a href="https://platform.openai.com/docs/guides/prompt-engineering#strategy-split-complex-tasks-into-simpler-subtasks">here</a>.</p>
-<h2 id="2-random-sentences">2. Random sentences</h2>
-<p>I went through several iterations when it came to generating random sentences for translation practice. Initially, the prompt was quite simple: &quot;Generate a random beginner-level sentence for translation.&quot; However, the responses were often very similar, mostly revolving around students and their homework, and lacking some verb tenses I wanted to practice. Eventually, I decided to parameterize the prompt and generate random values for the following parameters using my code:</p>
-<ul>
-<li>Mood: indicative, question, imperative, etc.</li>
-<li>Tense: past, present, future</li>
-<li>Word: a word that must be included in the sentence. I ended up using a list of &quot;The 1000 most common English words&quot; and randomly selecting one each time.</li>
-<li>Topic: science, politics, religion, etc.</li>
-</ul>
+<p>I collected articles over the course of 2 months, but including the full content of each would have been too costly for this project. Instead, I opted to analyze only the titles and subtitles of the articles.</p>
+<h1 id="how-i-collected-the-data">How I collected the data</h1>
+<p>Instead of scraping, I subscribed to the RSS feeds of four Hungarian news sites—444, Telex, Origo, and Magyar Nemzet—and extracted the title and description of each article. For simplicity, I implemented this logic in a GitHub Action that ran several times a day. Each time, it used OpenAI to analyze the articles and then committed the raw data to the repository. While this setup is not scalable, my goal was simply to create a functional prototype quickly.</p>
+<p>I used GPT-3.5-turbo for the analysis. For comparison, I also evaluated the scores using Gemini 1.5-Flash, which produced nearly identical results.</p>
+<h1 id="results">Results</h1>
+<p>I collected two months' worth of data this summer, but unfortunately, the results weren't as exciting as I had hoped. In practice, there was little to no difference between the four news sites in terms of these scores. However, there are still a few interesting observations regarding the general attributes of these news outlets.</p>
+<p>I believe that using a more powerful model or analyzing English sources could improve the scores. It's likely that these models perform weaker when processing Hungarian language content.</p>
+<h2 id="1-there-is-generally-a-bad-mood-of-political-articles">1. There is generally a bad mood of political articles</h2>
+<figure style="text-align: center;">
+  <picture><source type="image/avif" srcset="/blog/news_stats/mY-YSdmJcW-990.avif 990w"><source type="image/webp" srcset="/blog/news_stats/mY-YSdmJcW-990.webp 990w"><img loading="lazy" decoding="async" src="/blog/news_stats/mY-YSdmJcW-990.png" alt="mood histogram" width="990" height="542"></picture>
+  <figcaption>Figure 3: histogram of "mood" score of articles.<br>X: score, Y: number of articles</figcaption>
+</figure>
+<h2 id="2-the-articles-seem-generally-believable-to-ai">2. The articles seem generally believable to AI</h2>
+<figure style="text-align: center;">
+  <picture><source type="image/avif" srcset="/blog/news_stats/K5LbJwLL_v-990.avif 990w"><source type="image/webp" srcset="/blog/news_stats/K5LbJwLL_v-990.webp 990w"><img loading="lazy" decoding="async" src="/blog/news_stats/K5LbJwLL_v-990.png" alt="credibility histogram" width="990" height="542"></picture>
+  <figcaption>Figure 3: histogram of "credibility" score of articles.<br>X: score, Y: number of articles</figcaption>
+</figure>
+<h2 id="3-most-articles-seem-manipulative-to-ai">3. Most articles seem manipulative to AI</h2>
+<p>However, it seems to contradict its judgment regarding credibility, which makes me suspect that some of these estimations might be inaccurate. Reworking the prompt or using a stronger model could likely help address this issue.</p>
+<figure style="text-align: center;">
+  <picture><source type="image/avif" srcset="/blog/news_stats/EOBx8sgUuN-990.avif 990w"><source type="image/webp" srcset="/blog/news_stats/EOBx8sgUuN-990.webp 990w"><img loading="lazy" decoding="async" src="/blog/news_stats/EOBx8sgUuN-990.png" alt="manipulativeness histogram" width="990" height="542"></picture>
+  <figcaption>Figure 3: histogram of "manipulativeness" score of articles.<br>X: score, Y: number of articles</figcaption>
+</figure>
 
-<ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/blog/grassfield/">Modeling a grass field in three.js</a></li><li class="links-nextprev-next">Next →<br><a href="/blog/news_stats/">Comparing the quality of various news sources using OpenAI</a></li>
+<ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/blog/spanish_translation/">Writing an OpenAI powered app to practice my Spanish skills</a></li>
 </ul>
 
 			</heading-anchors>
@@ -539,7 +532,7 @@ header {
 			<p><em>Built with <a href="https://www.11ty.dev/">Eleventy v3.0.0</a></em></p>
 		</footer>
 
-		<!-- This page `/blog/spanish_translation/` was built on 2024-12-31T01:35:17.815Z -->
+		<!-- This page `/blog/news_stats/` was built on 2024-12-31T01:35:17.815Z -->
 		<script type="module" src="/dist/rJ3_G-2ArF.js"></script>
 	</body>
 </html>

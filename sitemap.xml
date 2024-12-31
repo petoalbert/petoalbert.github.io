@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+	
+	<url>
+		<loc>https://petoalbert.github.io/eleventy-base-blog/blog/grassfield/</loc>
+		<lastmod>2016-10-22</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://petoalbert.github.io/eleventy-base-blog/blog/spanish_translation/</loc>
+		<lastmod>2024-12-28</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://petoalbert.github.io/eleventy-base-blog/about/</loc>
+		<lastmod>2024-12-31</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://petoalbert.github.io/eleventy-base-blog/blog/</loc>
+		<lastmod>2024-12-31</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://petoalbert.github.io/eleventy-base-blog/</loc>
+		<lastmod>2024-12-31</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://petoalbert.github.io/eleventy-base-blog/tags/</loc>
+		<lastmod>2024-12-31</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://petoalbert.github.io/eleventy-base-blog/feed/feed.xml</loc>
+		<lastmod>2024-12-31</lastmod>
+	</url>
+</urlset>

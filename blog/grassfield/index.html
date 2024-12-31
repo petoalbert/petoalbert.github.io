@@ -1,0 +1,716 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Modeling a grass field in three.js</title>
+		<meta name="description" content="I am writing about my experiences as a software engineer.">
+		<link rel="alternate" href="feed/feed.xml" type="application/atom+xml" title="Albert Peto&#39;s developer experiences">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.19/dist/katex.min.css">
+  		<script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.19/dist/katex.min.js"></script>
+  		<script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.19/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+		
+		<style>/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}
+/* This is an arbitrary CSS string added to the bundle */
+/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	--color-gray-20: #e0e0e0;
+	--color-gray-50: #C0C0C0;
+	--color-gray-90: #333;
+
+	--background-color: #fff;
+
+	--text-color: var(--color-gray-90);
+	--text-color-link: #082840;
+	--text-color-link-active: #5f2b48;
+	--text-color-link-visited: #17050F;
+
+	--syntax-tab-size: 2;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #e0e0e0;
+		--color-gray-50: #C0C0C0;
+		--color-gray-90: #dad8d8;
+
+		/* --text-color is assigned to --color-gray-_ above */
+		--text-color-link: #1493fb;
+		--text-color-link-active: #6969f7;
+		--text-color-link-visited: #a6a6f8;
+
+		--background-color: #15202b;
+	}
+}
+
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+@view-transition {
+	navigation: auto;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+html {
+	overflow-y: scroll;
+}
+body {
+	max-width: 40em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+/* Fluid images via https://www.zachleat.com/web/fluid-images/ */
+img {
+  max-width: 100%;
+}
+img[width][height] {
+  height: auto;
+}
+img[src$=".svg"] {
+  width: 100%;
+  height: auto;
+  max-width: none;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main,
+footer {
+	padding: 1rem;
+}
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+header:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.links-nextprev {
+	display: flex;
+	justify-content: space-between;
+	gap: .5em 1em;
+	list-style: "";
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+.links-nextprev > * {
+	flex-grow: 1;
+}
+.links-nextprev-next {
+	text-align: right;
+}
+
+table {
+	margin: 1em 0;
+}
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375; /* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	overflow-x: auto;
+}
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em .5em;
+	flex-wrap: wrap;
+	align-items: center;
+	padding: 1em;
+}
+.home-link {
+	font-size: 1em; /* 16px /16 */
+	font-weight: 700;
+	margin-right: 2em;
+}
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.nav-item {
+	display: inline-block;
+	margin-right: 1em;
+}
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	list-style: none;
+	padding: 0;
+	padding-left: 1.5rem;
+}
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+.postlist-item:before {
+	display: inline-block;
+	pointer-events: none;
+	content: "" counter(start-from, decimal-leading-zero) ". ";
+	line-height: 100%;
+	text-align: right;
+	margin-left: -1.5rem;
+}
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em; /* 13px /16 */
+	color: var(--color-gray-90);
+}
+.postlist-date {
+	word-spacing: -0.5px;
+}
+.postlist-link {
+	font-size: 1.1875em; /* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	padding-left: .25em;
+	padding-right: .5em;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+.postlist-item > .post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: .5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.post-metadata time {
+	margin-right: 1em;
+}
+
+.profile-picture {
+	width: 150px;
+	height: 150px;
+	border-radius: 50%;
+	display: block;
+	margin: 0 auto;
+  }</style>
+	</head>
+	<body>
+		<a href="#skip" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/eleventy-base-blog/" class="home-link">Albert Peto&#39;s developer experiences</a>
+			<nav>
+				<h2 class="visually-hidden" id="top-level-navigation-menu">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/eleventy-base-blog/">Home</a></li>
+					<li class="nav-item"><a href="/eleventy-base-blog/blog/">Archive</a></li>
+					<li class="nav-item"><a href="/eleventy-base-blog/about/">About</a></li>
+					<li class="nav-item"><a href="/eleventy-base-blog/feed/feed.xml">Feed</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main id="skip">
+			<heading-anchors>
+				
+<h1 id="modeling-a-grass-field-in-three-js">Modeling a grass field in three.js</h1>
+
+<ul class="post-metadata">
+	<li><time datetime="2016-10-22">22 October 2016</time></li>
+	<li><a href="/eleventy-base-blog/tags/opengl/" class="post-tag">OpenGL</a>, </li>
+	<li><a href="/eleventy-base-blog/tags/3d/" class="post-tag">3D</a></li>
+</ul>
+
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+<p><a href="https://petoalbert.github.io/flora"><picture><source type="image/avif" srcset="/eleventy-base-blog/blog/grassfield/gHQL7E1DSJ-1366.avif 1366w"><source type="image/webp" srcset="/eleventy-base-blog/blog/grassfield/gHQL7E1DSJ-1366.webp 1366w"><img loading="lazy" decoding="async" src="/eleventy-base-blog/blog/grassfield/gHQL7E1DSJ-1366.png" alt="screenshot" width="1366" height="768"></picture></a></p>
+<p>This post is about a three.js based application which shows a grass fild with
+wind blowing in it. You can try it out in your browser <a href="https://petoalbert.github.io/flora">here</a>. The source
+code is on <a href="https://github.com/petoalbert/flora">github</a>. Here I will give a brief description about some of
+the techniques which I have used in the application. A lot of things
+are left out, but I plan to add them later to the post. Although the post is not
+meant to be a comprehensive tutorial, please read further if you are interested
+in the details of my work.</p>
+<p>On part of the reader, I will assume a basic understanding of OpenGL and how a
+shader works.</p>
+<h2 id="a-blade-of-grass">A blade of grass</h2>
+<p>The javascript code loads an <code>.obj</code> file containing the vertices of a 2D blade
+of grass, exported from a Blender model. The application uses the object loader
+from a three.js <a href="https://threejs.org/examples/#webgl_loader_obj">example</a>. In the loaded model,
+the alignment is assumed to be the following: the z axis is always zero
+(i.e. the blade is in the x-y plane), and
+the longitudinal axis is y, with the bottom of the grass having 0 value for
+the y coordinate.</p>
+<picture><source type="image/avif" srcset="/eleventy-base-blog/blog/grassfield/LpihAILE_A-1366.avif 1366w"><source type="image/webp" srcset="/eleventy-base-blog/blog/grassfield/LpihAILE_A-1366.webp 1366w"><img loading="lazy" decoding="async" src="/eleventy-base-blog/blog/grassfield/LpihAILE_A-1366.png" alt="grass in blender" width="1366" height="768"></picture>
+<h2 id="instancing">Instancing</h2>
+<p>Once the application has loaded the blade vertices, it needs to draw a lot of
+them. The naive solution would be to make a <a href="https://threejs.org/docs/index.html#Reference/Objects/Mesh">THREE.Mesh</a> with the
+same vertices for each blade of grass, add each one to the scene and then
+make them unique by changing there position and appearance. This, however, would
+result in a very slow code if we really wanted to draw a lot of pieces, because
+each piece would need a separate rendering call.</p>
+<p>We can overcome this problem with instancing, which basically means that we
+only use one rendering call for all of the pieces. Since every blade of grass
+is based on the same vertices, those only need to be defined once, and the GPU
+will use them for each blade. On the other hand, we have to associate some
+unique values with each blade (rotation, position, color, etc.), so that the
+geometry shader can produce different vertices and the fragment shader can
+produce different colors. These values will be stored in
+<code>THREE.InstancedBufferAttribute</code> objects. If you would like to read more about
+OpenGL instancing, read this <a href="http://learnopengl.com/#!Advanced-OpenGL/Instancing">great article</a>, or have a look
+at this <a href="https://threejs.org/examples/#webgl_buffergeometry_instancing">three.js example</a>.</p>
+<p>From now on, please keep in mind, that we have to use the shaders for for
+every kind of transformation, beacuse the rendering loop for every blade
+begins with the same set of vertices. For example, if we want to bend a specific
+blade of grass in a given way, we can't just transform the vertices in the
+javascript code, because that would affect every other blade of grass. We have
+to do that in the shader, too.</p>
+<p>To make each blade of grass look different, I have used the following
+transformations in the geometry shader (i.e. on each vertex of a blade of
+grass), in the following order:</p>
+<h3 id="1-scaling-the-width-and-height">1. Scaling the width and height</h3>
+<h3 id="2-bending-the-grass-piece">2. Bending the grass piece</h3>
+<p>This could be done in many ways. Don't forget that
+when the geometry shader is working on a vertex, it doesn't know anything
+about the other vertices of the blade of grass, so in a mathematical sense
+we can only use a function \(f(v,a,u)\) to calculate the transformed vertex,
+where the v,a,u arguments are the actual vertex, the attributes of the
+current blade of grass, and uniforms.</p>
+<p>In my model, every blade has a constant
+curvature, i.e. its y and z coordinates fit on a circular arc, which is
+calculated like this in the shader (simplified version):</p>
+<pre class="language-glsl" tabindex="0"><code class="language-glsl"><span class="token comment">// curve is different for each blade of grass and describes the curvature</span>
+<span class="token comment">// r is the radius of the circular arc</span>
+<span class="token comment">// len is the height of the grass piece</span>
+<span class="token keyword">float</span> r <span class="token operator">=</span> len<span class="token operator">/</span><span class="token punctuation">(</span>curve<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">float</span> angle <span class="token operator">=</span> vPosition<span class="token punctuation">.</span>y<span class="token operator">/</span>r<span class="token punctuation">;</span>
+vPosition<span class="token punctuation">.</span>z <span class="token operator">=</span> <span class="token function">cos</span><span class="token punctuation">(</span>angle<span class="token punctuation">)</span><span class="token operator">*</span>r<span class="token operator">-</span>r<span class="token punctuation">;</span>
+vPosition<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token function">sin</span><span class="token punctuation">(</span>angle<span class="token punctuation">)</span><span class="token operator">*</span>r<span class="token punctuation">;</span></code></pre>
+<p>The shader uses the mathematical identity \(\theta = s/r\), for a circular
+arc of length \(s\) and radius \(r\), where \(\theta\) is the subtended angle
+in radians.
+For a vertex of a given blade of grass, \(s\) is the \(y\) coordinate of the
+vertex, and \(r\) is constant to the whole blade. The below picture shows
+arcs with the same length, but with different radius, in red:</p>
+<picture><source type="image/avif" srcset="/eleventy-base-blog/blog/grassfield/NcVuMqVEEo-756.avif 756w"><source type="image/webp" srcset="/eleventy-base-blog/blog/grassfield/NcVuMqVEEo-756.webp 756w"><img loading="lazy" decoding="async" class="center" width="756" src="/eleventy-base-blog/blog/grassfield/NcVuMqVEEo-756.png" alt="curvature" height="756"></picture>
+<h3 id="3-rotating-the-blade-along-the-y-axis">3. Rotating the blade along the y axis</h3>
+<h3 id="4-translating-the-blade-in-the-x-z-plane">4. Translating the blade in the x-z plane</h3>
+<p>Besides the geometry transformations, each blade has a slightly different color,
+which is set in the fragment shader.</p>
+<h2 id="wind">Wind</h2>
+<p>To make each piece look more realistic, we need to add some movement to them,
+which, in the case of this application, consist of two parts: constant movement
+and gusts of wind.</p>
+<p>In both cases, the movement is present by changing the curvature of the
+blade with respect to time. This is accomplished by extending the
+<a href="#bending-the-grass-piece">previously presented snippet</a> from the geometry
+shader:</p>
+<pre class="language-glsl" tabindex="0"><code class="language-glsl"><span class="token comment">// curve is different for each blade of grass and describes the curvature</span>
+<span class="token comment">// r is the radius of the circular arc</span>
+<span class="token comment">// len is the height of the grass piece</span>
+<span class="token keyword">float</span> r <span class="token operator">=</span> len<span class="token operator">/</span><span class="token punctuation">(</span>curve<span class="token operator">+</span>windEffects<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// notice that we added windEffects</span>
+<span class="token keyword">float</span> angle <span class="token operator">=</span> vPosition<span class="token punctuation">.</span>y<span class="token operator">/</span>r<span class="token punctuation">;</span>
+vPosition<span class="token punctuation">.</span>z <span class="token operator">=</span> <span class="token function">cos</span><span class="token punctuation">(</span>angle<span class="token punctuation">)</span><span class="token operator">*</span>r<span class="token operator">-</span>r<span class="token punctuation">;</span>
+vPosition<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token function">sin</span><span class="token punctuation">(</span>angle<span class="token punctuation">)</span><span class="token operator">*</span>r<span class="token punctuation">;</span></code></pre>
+<h3 id="constant-movement">Constant movement</h3>
+<p>This movement is a very low-amplitude movement, but even this little movement
+helps get a more natural feel, where not everything is 100% static.
+Each blade will have a different amplitude and frequency, to make
+it look natural and not too synchronized.</p>
+<pre class="language-glsl" tabindex="0"><code class="language-glsl"><span class="token comment">// amplitude and freq are unique for each blade of grass</span>
+<span class="token keyword">float</span> r <span class="token operator">=</span> len<span class="token operator">/</span><span class="token punctuation">(</span>curve<span class="token operator">+</span>amplitude<span class="token operator">*</span><span class="token function">sin</span><span class="token punctuation">(</span>freq<span class="token operator">*</span>time<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h3 id="wind-gust">Wind gust</h3>
+<p>The scene also has short-term wind gusts, about which we have the following
+assumptions:</p>
+<ol>
+<li>A wind gust has the same direction everywhere and is parallel to the
+x-z (horizontal) plane</li>
+<li>A gust has its effects for a finite amount of time, and has a starting point
+and starting time. These assumptions are needed because we only want to
+model the gust near the &quot;player's&quot; position.</li>
+<li>A gust has a speed, which is the same everywhere</li>
+<li>A wind gust is only in effect for a finite amount of time, and there can
+only be one active wind gust at any time.</li>
+</ol>
+<p>For every point in the OpenGL space, the shader needs to know when the blow
+will reach that point, or if it has reached that.
+Depending on this state, the shader will derive the strength of the gust,
+which will gradually increase until the gust reaches that point, and will
+gradually decrease after. It is also important for the movement to start
+and end slowly, otherwise it may look unnatural. Taking into account these
+criteria, I have chosen the <a href="https://en.wikipedia.org/wiki/Gaussian_function">gaussian function</a>.</p>
+<picture><source type="image/avif" srcset="/eleventy-base-blog/blog/grassfield/RbSdTl-elU-800.avif 800w"><source type="image/webp" srcset="/eleventy-base-blog/blog/grassfield/RbSdTl-elU-800.webp 800w"><img loading="lazy" decoding="async" class="center" width="800" src="/eleventy-base-blog/blog/grassfield/RbSdTl-elU-800.png" alt="gaussian" height="600"></picture>
+<p>The above picture shows a basic implementation of the gust strength at a
+given point. However, I think that the settling phase can usually last longer
+and contain some spring-like back-and-forth movement, so I made it longer and
+multiplied it with a cosine function:</p>
+<picture><source type="image/avif" srcset="/eleventy-base-blog/blog/grassfield/atI0v4EgqM-800.avif 800w"><source type="image/webp" srcset="/eleventy-base-blog/blog/grassfield/atI0v4EgqM-800.webp 800w"><img loading="lazy" decoding="async" class="center" width="800" src="/eleventy-base-blog/blog/grassfield/atI0v4EgqM-800.png" alt="modified gaussian" height="600"></picture>
+<p>This is the simplified part of the geometry shader that computes the wind strength:</p>
+<pre class="language-glsl" tabindex="0"><code class="language-glsl"><span class="token keyword">float</span> <span class="token function">wind</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+  <span class="token comment">// The transitional stage is governed by one half of a Gaussian function,</span>
+  <span class="token comment">// while the maximum deflection stage is constant (-1.0 or 1.0)</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>t <span class="token operator">&lt;</span> windRiseTime<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token function">exp</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token function">pow</span><span class="token punctuation">(</span><span class="token function">abs</span><span class="token punctuation">(</span>t<span class="token operator">-</span>windRiseTime<span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token number">2.0</span><span class="token punctuation">)</span><span class="token operator">/</span><span class="token punctuation">(</span><span class="token number">2.0</span><span class="token operator">*</span><span class="token function">pow</span><span class="token punctuation">(</span>spread<span class="token punctuation">,</span><span class="token number">2.0</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>t <span class="token operator">></span> <span class="token punctuation">(</span>windRiseTime<span class="token operator">+</span>len<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">float</span> x <span class="token operator">=</span> t<span class="token operator">-</span>windRiseTime<span class="token operator">-</span>len<span class="token punctuation">;</span>
+    <span class="token comment">// Do a little more than a half cosine in the settling phase</span>
+    <span class="token keyword">float</span> f <span class="token operator">=</span> <span class="token number">0.55</span><span class="token operator">*</span><span class="token number">2.0</span><span class="token operator">*</span>PI<span class="token operator">/</span>windSettlingTime<span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token function">cos</span><span class="token punctuation">(</span>f<span class="token operator">*</span>x<span class="token punctuation">)</span><span class="token operator">*</span><span class="token function">exp</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token function">pow</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span><span class="token number">2.0</span><span class="token punctuation">)</span><span class="token operator">/</span><span class="token punctuation">(</span><span class="token number">2.0</span><span class="token operator">*</span><span class="token function">pow</span><span class="token punctuation">(</span>settlingSpread<span class="token punctuation">,</span><span class="token number">2.0</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token number">1.0</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<!--* this is only used to correct syntax highlighting in the editor-->
+<p>Another important thing is the blade's rotation about its longitudinal (y) axis.
+If it does not align with the gust direction, then, besides the bending,
+the gust will also rotate the piece:</p>
+<pre class="language-glsl" tabindex="0"><code class="language-glsl"><span class="token comment">/*
+ * Return the angle to which the wind in its strongest state will rotate
+ * the tip of the grass piece.
+ */</span>
+<span class="token keyword">float</span> <span class="token function">rotateInWind</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+  <span class="token comment">// The angle difference in the wind direction and the blade's rotation</span>
+  <span class="token keyword">float</span> diff <span class="token operator">=</span> <span class="token function">angleDiff</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment">// The wind never rotates more than 90 degrees</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>diff <span class="token operator">&lt;</span> <span class="token operator">-</span>PI<span class="token operator">/</span><span class="token number">2.0</span> <span class="token operator">&amp;&amp;</span> diff <span class="token operator">></span> <span class="token operator">-</span>PI<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    diff <span class="token operator">=</span> PI<span class="token operator">+</span>diff<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>diff <span class="token operator">&lt;</span> <span class="token operator">-</span>PI <span class="token operator">&amp;&amp;</span> diff <span class="token operator">></span> <span class="token operator">-</span><span class="token number">3.0</span><span class="token operator">*</span>PI<span class="token operator">/</span><span class="token number">2.0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    diff <span class="token operator">=</span> PI<span class="token operator">+</span>diff<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>diff <span class="token operator">&lt;</span> <span class="token operator">-</span><span class="token number">3.0</span><span class="token operator">*</span>PI<span class="token operator">/</span><span class="token number">2.0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    diff <span class="token operator">=</span> <span class="token number">2.0</span><span class="token operator">*</span>PI<span class="token operator">+</span>diff<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token comment">// The lowest height on the grass piece at which it can twist</span>
+  <span class="token keyword">float</span> twistHeight <span class="token operator">=</span> unitHeight<span class="token operator">*</span><span class="token number">0.3</span><span class="token punctuation">;</span>
+  <span class="token comment">// The amount that this vertex will twist</span>
+  <span class="token keyword">float</span> twistCoefficient <span class="token operator">=</span> <span class="token punctuation">(</span>position<span class="token punctuation">.</span>y<span class="token operator">-</span>twistHeight<span class="token punctuation">)</span><span class="token operator">/</span>unitHeight<span class="token punctuation">;</span>
+
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>position<span class="token punctuation">.</span>y <span class="token operator">&lt;</span> twistHeight<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token number">0.0</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>twistCoefficient <span class="token operator">&lt;</span> <span class="token number">1.0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> diff<span class="token operator">*</span>twistCoefficient<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> diff<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span></code></pre>
+<p>Finally, the blade's curvature is modified according to the following line:</p>
+<pre class="language-glsl" tabindex="0"><code class="language-glsl"><span class="token comment">// the weighting 0.5 is experimentally determined</span>
+<span class="token keyword">float</span> r <span class="token operator">=</span> len<span class="token operator">/</span><span class="token punctuation">(</span>curve<span class="token operator">+</span><span class="token number">0.5</span><span class="token operator">*</span>windStrength<span class="token operator">+</span>amplitude<span class="token operator">*</span><span class="token function">sin</span><span class="token punctuation">(</span>freq<span class="token operator">*</span>time<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>Here, I have left out the details of how the wind travels throght the field,
+i.e. how the position influences the arguments of the gaussian curve.</p>
+<h2 id="making-the-field-infinite">Making the field infinite</h2>
+<p>The last thing is to be able to move in the grass. The code for the controls
+(WASD + mouse) is reused from a <a href="https://threejs.org/examples/#misc_controls_pointerlock">three.js example</a>, so I
+will not write about them.</p>
+<p>The more important problem from our perspective is to always draw the blades
+of grass around the &quot;player's&quot; current position, so that the field looks
+infinite. I will note here that the original blade's are spread out around
+the \((0,0)\) point in the x-z plane in a square shape, with width \(a\).
+Now, if the player's position in the x-z plane is \((p_x,p_z)\), we have to
+draw the pieces in a square with width \(a\), centered at \((p_x,p_z)\).
+We suppose that the player can't see further than \(a/2\) distance, because
+there is fog.</p>
+<p>The problem is solved in the geometry shader: if a blade in its original
+position can't be seen from the players position (its distance is more than
+\(a/2\)), we translate the blade in the x-z plane by
+\((t_x\cdot a,t_z \cdot a)\) to the square centered around the player's
+position, where \(t_x\) and \(t_z\) are appropiate integers:</p>
+<pre class="language-glsl" tabindex="0"><code class="language-glsl"><span class="token comment">/*
+ * Offset the grass piece with integer multiples of spread in the x and z directions
+ * to be in the near the players current position.
+ */</span>
+<span class="token keyword">void</span> <span class="token function">calculateViewOffset</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">vec3</span> playerPositionInPlane <span class="token operator">=</span> <span class="token keyword">vec3</span><span class="token punctuation">(</span>playerPosition<span class="token punctuation">.</span>x<span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span>playerPosition<span class="token punctuation">.</span>z<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">vec3</span> diff <span class="token operator">=</span> playerPositionInPlane <span class="token operator">-</span> offset<span class="token punctuation">;</span>
+  viewOffset <span class="token operator">=</span> offset<span class="token punctuation">;</span>
+  <span class="token keyword">float</span> dlen <span class="token operator">=</span> <span class="token function">length</span><span class="token punctuation">(</span>diff<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment">// spread is the side of the square in which the blades are laid out</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>dlen <span class="token operator">></span> spread<span class="token operator">/</span><span class="token number">2.0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    viewOffset<span class="token punctuation">.</span>x <span class="token operator">+=</span> <span class="token function">round</span><span class="token punctuation">(</span>diff<span class="token punctuation">.</span>x<span class="token operator">/</span>spread<span class="token punctuation">)</span><span class="token operator">*</span>spread<span class="token punctuation">;</span>
+    viewOffset<span class="token punctuation">.</span>z <span class="token operator">+=</span> <span class="token function">round</span><span class="token punctuation">(</span>diff<span class="token punctuation">.</span>z<span class="token operator">/</span>spread<span class="token punctuation">)</span><span class="token operator">*</span>spread<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+
+<ul class="links-nextprev"><li class="links-nextprev-next">Next →<br><a href="/eleventy-base-blog/blog/spanish_translation/">Writing an OpenAI powered app to practice my Spanish skills</a></li>
+</ul>
+
+			</heading-anchors>
+		</main>
+
+		<footer>
+			<p><em>Built with <a href="https://www.11ty.dev/">Eleventy v3.0.0</a></em></p>
+		</footer>
+
+		<!-- This page `/blog/grassfield/` was built on 2024-12-31T00:24:42.546Z -->
+		<script type="module" src="/eleventy-base-blog/dist/rJ3_G-2ArF.js"></script>
+	</body>
+</html>

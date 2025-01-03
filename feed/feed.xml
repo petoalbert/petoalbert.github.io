@@ -5,50 +5,11 @@
   <subtitle>This is a longer description about your blog.</subtitle>
   <link href="https://example.com/feed/feed.xml" rel="self" />
   <link href="https://example.com/" />
-  <updated>2024-12-29T00:00:00Z</updated>
+  <updated>2024-12-28T00:00:00Z</updated>
   <id>https://example.com/</id>
   <author>
     <name>Your Name</name>
   </author>
-  <entry>
-    <title>Comparing the quality of various news sources using OpenAI</title>
-    <link href="https://example.com/blog/news_stats/" />
-    <updated>2024-12-29T00:00:00Z</updated>
-    <id>https://example.com/blog/news_stats/</id>
-    <content type="html">&lt;p&gt;I am often shocked by how misleading and manipulative some online media platforms can be. Yet, they still attract a significant number of readers, many of whom view the sources I trust with similar skepticism. This made me curious about gaining an &amp;quot;independent&amp;quot; perspective on which news outlets are more reliable. To explore this, I decided to create a simple tool that analyzes articles from various sources and uses OpenAI to assign a score to each. It will be fascinating to see if these scores reveal noticeable differences between the sites.&lt;/p&gt;
-&lt;h1 id=&quot;what-to-evaluate&quot;&gt;What to evaluate&lt;/h1&gt;
-&lt;p&gt;I defined four attributes for which OpenAI will assign a score between 0 and 10:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Credibility: Higher is better, indicating how believable the article&#39;s claims are.&lt;/li&gt;
-&lt;li&gt;Mood: Reflects the emotional tone of the article, ranging from sad to happy.&lt;/li&gt;
-&lt;li&gt;Manipulativeness: Lower is better, measuring how manipulative the article&#39;s content appears.&lt;/li&gt;
-&lt;li&gt;Complexity: Evaluates the complexity of the language and wording used in the article.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;I collected articles over the course of 2 months, but including the full content of each would have been too costly for this project. Instead, I opted to analyze only the titles and subtitles of the articles.&lt;/p&gt;
-&lt;h1 id=&quot;how-i-collected-the-data&quot;&gt;How I collected the data&lt;/h1&gt;
-&lt;p&gt;Instead of scraping, I subscribed to the RSS feeds of four Hungarian news sites—444, Telex, Origo, and Magyar Nemzet—and extracted the title and description of each article. For simplicity, I implemented this logic in a GitHub Action that ran several times a day. Each time, it used OpenAI to analyze the articles and then committed the raw data to the repository. While this setup is not scalable, my goal was simply to create a functional prototype quickly.&lt;/p&gt;
-&lt;p&gt;I used GPT-3.5-turbo for the analysis. For comparison, I also evaluated the scores using Gemini 1.5-Flash, which produced nearly identical results.&lt;/p&gt;
-&lt;h1 id=&quot;results&quot;&gt;Results&lt;/h1&gt;
-&lt;p&gt;I collected two months&#39; worth of data this summer, but unfortunately, the results weren&#39;t as exciting as I had hoped. In practice, there was little to no difference between the four news sites in terms of these scores. However, there are still a few interesting observations regarding the general attributes of these news outlets.&lt;/p&gt;
-&lt;p&gt;I believe that using a more powerful model or analyzing English sources could improve the scores. It&#39;s likely that these models perform weaker when processing Hungarian language content.&lt;/p&gt;
-&lt;h2 id=&quot;1-there-is-generally-a-bad-mood-of-political-articles&quot;&gt;1. There is generally a bad mood of political articles&lt;/h2&gt;
-&lt;figure style=&quot;text-align: center;&quot;&gt;
-  &lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://example.com/blog/news_stats/mY-YSdmJcW-990.avif 990w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://example.com/blog/news_stats/mY-YSdmJcW-990.webp 990w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://example.com/blog/news_stats/mY-YSdmJcW-990.png&quot; alt=&quot;mood histogram&quot; width=&quot;990&quot; height=&quot;542&quot;&gt;&lt;/picture&gt;
-  &lt;figcaption&gt;Figure 3: histogram of &quot;mood&quot; score of articles.&lt;br&gt;X: score, Y: number of articles&lt;/figcaption&gt;
-&lt;/figure&gt;
-&lt;h2 id=&quot;2-the-articles-seem-generally-believable-to-ai&quot;&gt;2. The articles seem generally believable to AI&lt;/h2&gt;
-&lt;figure style=&quot;text-align: center;&quot;&gt;
-  &lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://example.com/blog/news_stats/K5LbJwLL_v-990.avif 990w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://example.com/blog/news_stats/K5LbJwLL_v-990.webp 990w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://example.com/blog/news_stats/K5LbJwLL_v-990.png&quot; alt=&quot;credibility histogram&quot; width=&quot;990&quot; height=&quot;542&quot;&gt;&lt;/picture&gt;
-  &lt;figcaption&gt;Figure 3: histogram of &quot;credibility&quot; score of articles.&lt;br&gt;X: score, Y: number of articles&lt;/figcaption&gt;
-&lt;/figure&gt;
-&lt;h2 id=&quot;3-most-articles-seem-manipulative-to-ai&quot;&gt;3. Most articles seem manipulative to AI&lt;/h2&gt;
-&lt;p&gt;However, it seems to contradict its judgment regarding credibility, which makes me suspect that some of these estimations might be inaccurate. Reworking the prompt or using a stronger model could likely help address this issue.&lt;/p&gt;
-&lt;figure style=&quot;text-align: center;&quot;&gt;
-  &lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://example.com/blog/news_stats/EOBx8sgUuN-990.avif 990w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://example.com/blog/news_stats/EOBx8sgUuN-990.webp 990w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://example.com/blog/news_stats/EOBx8sgUuN-990.png&quot; alt=&quot;manipulativeness histogram&quot; width=&quot;990&quot; height=&quot;542&quot;&gt;&lt;/picture&gt;
-  &lt;figcaption&gt;Figure 3: histogram of &quot;manipulativeness&quot; score of articles.&lt;br&gt;X: score, Y: number of articles&lt;/figcaption&gt;
-&lt;/figure&gt;
-</content>
-  </entry>
   <entry>
     <title>Writing an OpenAI powered app to practice my Spanish skills</title>
     <link href="https://example.com/blog/spanish_translation/" />
